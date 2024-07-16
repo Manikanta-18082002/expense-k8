@@ -1,0 +1,5 @@
+AWS EBS CSI Driver
+
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.32"
+kubectl get namespace --> kube-system  -- This is Administrator related namespace
+kubectl get pods -n kube-system --> If all pods are running then drivers installed successfully

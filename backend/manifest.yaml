@@ -4,7 +4,8 @@ metadata:
   name: backend
   namespace: expense
 data: # mysql component service name
-  DB_HOST: mysql # (Backend need to know DB Host Name ) DB_HOST is configuration
+  # DB_HOST: mysql # (Backend need to know DB Host Name ) DB_HOST is configuration
+  DB_HOST: db-dev.dawsmani.site
 ---
 kind: Deployment
 apiVersion: apps/v1
@@ -38,6 +39,27 @@ spec:
       containers:
       - name: backend
         image: manikanta1808/backend:v1.0
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "150m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 5
+          initialDelaySeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 5
+          initialDelaySeconds: 30
         envFrom:
         - configMapRef:
             name: backend
